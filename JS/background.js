@@ -5,11 +5,9 @@ const ctx = canvas.getContext('2d');
 let particlesArray;
 let mouse = { x: null, y: null };
 
-// Set canvas size
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Particle Class 3D
 class Particle3D {
   constructor(x, y, z, size) {
     this.origX = x;
@@ -19,7 +17,6 @@ class Particle3D {
     this.z = z;
     this.baseSize = size;
 
-    // velocity
     this.vx = (Math.random() - 0.5) * 0.5;
     this.vy = (Math.random() - 0.5) * 0.5;
   }
@@ -28,13 +25,11 @@ class Particle3D {
     this.x += this.vx;
     this.y += this.vy;
 
-    // Bounds wrap
     if (this.x > canvas.width) this.x = 0;
     else if (this.x < 0) this.x = canvas.width;
     if (this.y > canvas.height) this.y = 0;
     else if (this.y < 0) this.y = canvas.height;
 
-    // Attraction to mouse
     if (mouse.x != null) {
       let dx = mouse.x - this.x;
       let dy = mouse.y - this.y;
@@ -46,13 +41,13 @@ class Particle3D {
         // slightly jump forward in Z
         this.z += (1 - this.z) * 0.1;
       } else {
-        this.z += (this.baseSize - this.z) * 0.05; // return to normal z
+        this.z += (this.baseSize - this.z) * 0.05;
       }
     }
   }
 
   draw() {
-    // Fake 3D Projection
+
     let fov = 300;
     let scale = fov / (fov + this.z * 100);
     // Move origin to center for 3D rotation feel
@@ -84,7 +79,7 @@ function init() {
     const size = (Math.random() * 2) + 0.5;
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
-    const z = Math.random() * 3 + 1; // Z depth
+    const z = Math.random() * 3 + 1;
 
     particlesArray.push(new Particle3D(x, y, z, size));
   }
@@ -101,7 +96,6 @@ function animate() {
     projectedPoints.push(particlesArray[i].draw());
   }
 
-  // Draw connecting lines
   for (let a = 0; a < particlesArray.length; a++) {
     for (let b = a; b < particlesArray.length; b++) {
       let pA = projectedPoints[a];
